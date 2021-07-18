@@ -21,18 +21,26 @@
     <button v-on:click="createProducts()">Add new recipe</button>
     <div v-for="product in products" v-bind:key="product.id">
       <p>Name: {{ product.name }}</p>
-      <p>Description: {{ product.description }}</p>
+      <button v-on:click="showProducts(product)">More Info</button>
       <p>Price: {{ product.price }}</p>
       <img v-bind:src="product.image_url" />
       <hr />
     </div>
+    <dialog id="product-description">
+      <form method="dialog">
+        <p>hello</p>
+        <button>Close</button>
+      </form>
+    </dialog>
   </div>
 </template>
+
 <style>
 img {
   width: 250px;
 }
 </style>
+
 <script>
 import axios from "axios";
 export default {
@@ -41,6 +49,7 @@ export default {
       message: "Welcome to Vue.js!",
       products: [],
       newproductparams: {},
+      currentproduct: {},
     };
   },
   created: function () {
@@ -64,6 +73,11 @@ export default {
         this.products.push(response.data);
         this.newproductparams = {};
       });
+    },
+    showProducts: function (theproduct) {
+      console.log(theproduct);
+      this.currentproduct = theproduct;
+      document.querySelector("#product-description").showModal();
     },
   },
 };
