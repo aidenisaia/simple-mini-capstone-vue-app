@@ -1,18 +1,37 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable prettier/prettier */
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <h1>{{ message }}</h1>
+    <hr />
+    <div v-for="product in products" v-bind:key="product.id">
+      <p>Name: {{ product.name }}</p>
+      <p>Description: {{ product.description }}</p>
+      <p>Price: {{ product.price }}</p>
+      <hr />
+    </div>
   </div>
 </template>
-
+<style></style>
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+import axios from "axios";
 export default {
-  name: "Home",
-  components: {
-    HelloWorld,
+  data: function () {
+    return {
+      message: "Welcome to Vue.js!",
+      products: [],
+    };
+  },
+  created: function () {
+    this.indexProducts();
+  },
+  methods: {
+    indexProducts: function () {
+      console.log("In indexProducts");
+      axios.get("http://localhost:3000/products").then((response) => {
+        this.products = response.data;
+      });
+    },
   },
 };
 </script>
