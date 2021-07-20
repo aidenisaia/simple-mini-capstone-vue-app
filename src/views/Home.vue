@@ -46,6 +46,7 @@
         </p>
 
         <button v-on:click="updateProduct(currentproduct)">Update</button>
+        <button v-on:click="destroyProduct(currentproduct)">Destroy</button>
         <button>Close</button>
       </form>
     </dialog>
@@ -101,6 +102,14 @@ export default {
       var editParams = theproduct;
       axios.patch("http://localhost:3000/products/" + editParams.id, editParams).then((response) => {
         console.log(response.data);
+      });
+    },
+    destroyProduct: function (theProduct) {
+      console.log("destroying..");
+      axios.delete(`http://localhost:3000/products/${theProduct.id}`).then((response) => {
+        console.log(response.data);
+        var index = this.products.indexOf(theProduct);
+        this.products.splice(index, 1);
       });
     },
   },
